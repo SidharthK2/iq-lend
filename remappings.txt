@@ -1,4 +1,5 @@
-frax-std/=node_modules/frax-standard-solidity/src/
 forge-std/=node_modules/forge-std/src/
-ds-test/=node_modules/ds-test/src/
-@openzeppelin=node_modules/@openzeppelin
+@morpho-blue/=node_modules/morpho-blue/src/
+@frax-bamm/=node_modules/public-frax-bamm/src/
+@fraxswap/=node_modules/dev-fraxswap/src/
+@openzeppelin/=node_modules/@openzeppelin/

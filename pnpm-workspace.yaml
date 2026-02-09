@@ -1,0 +1,5 @@
+onlyBuiltDependencies:
+  - "dev-frax-bamm"
+  - "public-frax-bamm"
+  - "dev-fraxswap"
+  - "frax-standard-solidity"
