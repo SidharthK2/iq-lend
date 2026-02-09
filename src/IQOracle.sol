@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: ISC
 pragma solidity >=0.8.19;
 
-import {IERC20Metadata} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
-import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {IOracle} from "./interfaces/IOracle.sol";
-import {IFraxswapOracle} from "./interfaces/IFraxswapOracle.sol";
-import {IFraxswapPair} from "./interfaces/IFraxswapPair.sol";
+import { IERC20Metadata } from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { IOracle } from "./interfaces/IOracle.sol";
+import { IFraxswapOracle } from "./interfaces/IFraxswapOracle.sol";
+import { IFraxswapPair } from "./interfaces/IFraxswapPair.sol";
 
 contract IQOracle is IOracle, Ownable {
     error InvalidTwapPeriod();
@@ -33,7 +33,9 @@ contract IQOracle is IOracle, Ownable {
         uint256 twapPeriod_,
         uint256 twapRounds_,
         uint256 maxDiffPerc_
-    ) Ownable(owner_) {
+    )
+        Ownable(owner_)
+    {
         fraxswapOracle = fraxswapOracle_;
         pair = pair_;
         usePrice0 = usePrice0_;

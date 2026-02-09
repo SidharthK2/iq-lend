@@ -18,18 +18,18 @@ import {
     IMorphoSupplyCollateralCallback,
     IMorphoFlashLoanCallback
 } from "@morpho-blue/interfaces/IMorphoCallbacks.sol";
-import {IIrm} from "@morpho-blue/interfaces/IIrm.sol";
-import {IERC20} from "@morpho-blue/interfaces/IERC20.sol";
-import {IOracle} from "@morpho-blue/interfaces/IOracle.sol";
+import { IIrm } from "@morpho-blue/interfaces/IIrm.sol";
+import { IERC20 } from "@morpho-blue/interfaces/IERC20.sol";
+import { IOracle } from "@morpho-blue/interfaces/IOracle.sol";
 
 import "@morpho-blue/libraries/ConstantsLib.sol";
-import {UtilsLib} from "@morpho-blue/libraries/UtilsLib.sol";
-import {EventsLib} from "@morpho-blue/libraries/EventsLib.sol";
-import {ErrorsLib} from "@morpho-blue/libraries/ErrorsLib.sol";
-import {MathLib, WAD} from "@morpho-blue/libraries/MathLib.sol";
-import {SharesMathLib} from "@morpho-blue/libraries/SharesMathLib.sol";
-import {MarketParamsLib} from "@morpho-blue/libraries/MarketParamsLib.sol";
-import {SafeTransferLib} from "@morpho-blue/libraries/SafeTransferLib.sol";
+import { UtilsLib } from "@morpho-blue/libraries/UtilsLib.sol";
+import { EventsLib } from "@morpho-blue/libraries/EventsLib.sol";
+import { ErrorsLib } from "@morpho-blue/libraries/ErrorsLib.sol";
+import { MathLib, WAD } from "@morpho-blue/libraries/MathLib.sol";
+import { SharesMathLib } from "@morpho-blue/libraries/SharesMathLib.sol";
+import { MarketParamsLib } from "@morpho-blue/libraries/MarketParamsLib.sol";
+import { SafeTransferLib } from "@morpho-blue/libraries/SafeTransferLib.sol";
 
 /// @title IQLend
 /// @notice The Morpho Blue based lending contract
@@ -181,7 +181,10 @@ contract IQLend is IMorphoStaticTyping {
         uint256 shares,
         address onBehalf,
         bytes calldata data
-    ) external returns (uint256, uint256) {
+    )
+        external
+        returns (uint256, uint256)
+    {
         Id id = marketParams.id();
         require(market[id].lastUpdate != 0, ErrorsLib.MARKET_NOT_CREATED);
         require(UtilsLib.exactlyOneZero(assets, shares), ErrorsLib.INCONSISTENT_INPUT);
@@ -214,7 +217,10 @@ contract IQLend is IMorphoStaticTyping {
         uint256 shares,
         address onBehalf,
         address receiver
-    ) external returns (uint256, uint256) {
+    )
+        external
+        returns (uint256, uint256)
+    {
         Id id = marketParams.id();
         require(market[id].lastUpdate != 0, ErrorsLib.MARKET_NOT_CREATED);
         require(UtilsLib.exactlyOneZero(assets, shares), ErrorsLib.INCONSISTENT_INPUT);
@@ -249,7 +255,10 @@ contract IQLend is IMorphoStaticTyping {
         uint256 shares,
         address onBehalf,
         address receiver
-    ) external returns (uint256, uint256) {
+    )
+        external
+        returns (uint256, uint256)
+    {
         Id id = marketParams.id();
         require(market[id].lastUpdate != 0, ErrorsLib.MARKET_NOT_CREATED);
         require(UtilsLib.exactlyOneZero(assets, shares), ErrorsLib.INCONSISTENT_INPUT);
@@ -285,7 +294,10 @@ contract IQLend is IMorphoStaticTyping {
         uint256 shares,
         address onBehalf,
         bytes calldata data
-    ) external returns (uint256, uint256) {
+    )
+        external
+        returns (uint256, uint256)
+    {
         Id id = marketParams.id();
         require(market[id].lastUpdate != 0, ErrorsLib.MARKET_NOT_CREATED);
         require(UtilsLib.exactlyOneZero(assets, shares), ErrorsLib.INCONSISTENT_INPUT);
@@ -313,7 +325,12 @@ contract IQLend is IMorphoStaticTyping {
     /* COLLATERAL MANAGEMENT */
 
     /// @inheritdoc IMorphoBase
-    function supplyCollateral(MarketParams memory marketParams, uint256 assets, address onBehalf, bytes calldata data)
+    function supplyCollateral(
+        MarketParams memory marketParams,
+        uint256 assets,
+        address onBehalf,
+        bytes calldata data
+    )
         external
     {
         Id id = marketParams.id();
@@ -333,7 +350,12 @@ contract IQLend is IMorphoStaticTyping {
     }
 
     /// @inheritdoc IMorphoBase
-    function withdrawCollateral(MarketParams memory marketParams, uint256 assets, address onBehalf, address receiver)
+    function withdrawCollateral(
+        MarketParams memory marketParams,
+        uint256 assets,
+        address onBehalf,
+        address receiver
+    )
         external
     {
         Id id = marketParams.id();
@@ -363,7 +385,10 @@ contract IQLend is IMorphoStaticTyping {
         uint256 seizedAssets,
         uint256 repaidShares,
         bytes calldata data
-    ) external returns (uint256, uint256) {
+    )
+        external
+        returns (uint256, uint256)
+    {
         Id id = marketParams.id();
         require(market[id].lastUpdate != 0, ErrorsLib.MARKET_NOT_CREATED);
         require(UtilsLib.exactlyOneZero(seizedAssets, repaidShares), ErrorsLib.INCONSISTENT_INPUT);
@@ -536,7 +561,12 @@ contract IQLend is IMorphoStaticTyping {
     /// `collateralPrice` is healthy.
     /// @dev Assumes that the inputs `marketParams` and `id` match.
     /// @dev Rounds in favor of the protocol, so one might not be able to borrow exactly `maxBorrow` but one unit less.
-    function _isHealthy(MarketParams memory marketParams, Id id, address borrower, uint256 collateralPrice)
+    function _isHealthy(
+        MarketParams memory marketParams,
+        Id id,
+        address borrower,
+        uint256 collateralPrice
+    )
         internal
         view
         returns (bool)
