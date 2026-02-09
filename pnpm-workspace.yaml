@@ -1,3 +1,6 @@
+packages:
+  - "."
+
 onlyBuiltDependencies:
   - "dev-frax-bamm"
   - "public-frax-bamm"

@@ -1,12 +1,12 @@
 //SPDX-License-Identifier: ISC
 pragma solidity >=0.8.19;
 
-import {Test, console2 as console} from "forge-std/Test.sol";
-import {IQOracle} from "../src/IQOracle.sol";
-import {FraxswapOracle} from "public-frax-bamm/src/contracts/FraxswapOracle.sol";
-import {IFraxswapOracle} from "../src/interfaces/IFraxswapOracle.sol";
-import {IFraxswapPair} from "../src/interfaces/IFraxswapPair.sol";
-import {Constants} from "../src/Constants.sol";
+import { Test, console2 as console } from "forge-std/Test.sol";
+import { IQOracle } from "../src/IQOracle.sol";
+import { FraxswapOracle } from "public-frax-bamm/src/contracts/FraxswapOracle.sol";
+import { IFraxswapOracle } from "../src/interfaces/IFraxswapOracle.sol";
+import { IFraxswapPair } from "../src/interfaces/IFraxswapPair.sol";
+import { Constants } from "../src/Constants.sol";
 
 contract IQOracleTest is Test {
     IQOracle oracleMarket1;
