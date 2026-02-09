@@ -1,40 +1,17 @@
-[![Node.js CI](https://github.com/tom2o17/2o17-solidity-pnpm-template/actions/workflows/test.yml/badge.svg)](https://github.com/tom2o17/2o17-solidity-pnpm-template/actions/workflows/test.yml)
+# IQ Lend
 
-# 🏎️ Foundry Template tom2o17 🏎️
+WIP lending protocol built from Morpho Blue primitives with custom modifications.
 
-Default Foundry Template with pnpm and no `.gitModules` 
+## Status
 
-## Usage 
-### Install external contracts
-```
+- Core lending flow is in progress.
+- Project is not production-ready.
+- Long/short leverage support still needs to be added.
+
+## Local dev
+
+```bash
 pnpm i
-```
-
-### compile to bytecode 
-```
-pnpm build
-```
-#### or 
-```
 forge build
-```
-
-### Test said bytecode
-```
-pmpm test
-```
-#### or 
-```
 forge test
-```
-
-## Linter
-### to check
-```
-pnpm lint:check
-```
-
-### to correct
-```
-pnpm lint:fix-all
 ```
