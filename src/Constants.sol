@@ -9,6 +9,7 @@ library Constants {
 
     // Fraxswap
     address constant FRAXSWAP_IQ_FRAX_PAIR = 0x07AF6BB51d6Ad0Cf126E3eD2DeE6EaC34BF094F8;
+    address constant FRAXSWAP_ROUTER = 0xC14d550632db8592D1243Edc8B95b0Ad06703867;
 
     //Curve
     address constant CURVE_FRAX_USDC = 0xDcEF968d416a41Cdac0ED8702fAC8128A64241A2;
