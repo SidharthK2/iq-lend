@@ -35,6 +35,9 @@ importers:
       morpho-blue:
         specifier: github:morpho-org/morpho-blue
         version: https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645
+      morpho-blue-irm:
+        specifier: github:morpho-org/morpho-blue-irm
+        version: https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25
       public-frax-bamm:
         specifier: github:FraxFinance/public-frax-bamm
         version: dev-frax-bamm@https://codeload.github.com/FraxFinance/public-frax-bamm/tar.gz/24118b75edc5377dee23c53ae419405287b92295
@@ -719,6 +722,10 @@ packages:
   minimatch@5.1.6:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
+
+  morpho-blue-irm@https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25:
+    resolution: {tarball: https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25}
+    version: 0.0.0
 
   morpho-blue@https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645:
     resolution: {tarball: https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645}
@@ -1918,6 +1925,8 @@ snapshots:
   minimatch@5.1.6:
     dependencies:
       brace-expansion: 2.0.2
+
+  morpho-blue-irm@https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25: {}
 
   morpho-blue@https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645: {}
 

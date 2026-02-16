@@ -1,5 +1,6 @@
 forge-std/=node_modules/forge-std/src/
 @morpho-blue/=node_modules/morpho-blue/src/
+@morpho-blue-irm/=node_modules/morpho-blue-irm/src/
 @frax-bamm/=node_modules/public-frax-bamm/src/
 @fraxswap/=node_modules/dev-fraxswap/src/
 ds-test/=node_modules/ds-test/src/
