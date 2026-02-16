@@ -1,11 +1,11 @@
 //SPDX-License-Identifier: ISC
 pragma solidity >=0.8.19;
 
-import {IQOracle} from "../src/IQOracle.sol";
-import {IFraxswapOracle} from "../src/interfaces/IFraxswapOracle.sol";
-import {IFraxswapPair} from "../src/interfaces/IFraxswapPair.sol";
-import {Constants} from "../src/Constants.sol";
-import {Script, console} from "forge-std/Script.sol";
+import { IQOracle } from "../src/IQOracle.sol";
+import { IFraxswapOracle } from "../src/interfaces/IFraxswapOracle.sol";
+import { IFraxswapPair } from "../src/interfaces/IFraxswapPair.sol";
+import { Constants } from "../src/Constants.sol";
+import { Script, console } from "forge-std/Script.sol";
 
 contract DeployIQOracle is Script {
     function run(address fraxswapOracle) external returns (address, address) {

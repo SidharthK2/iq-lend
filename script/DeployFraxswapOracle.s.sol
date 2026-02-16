@@ -1,8 +1,8 @@
 //SPDX-License-Identifier: ISC
 pragma solidity >=0.8.23;
 
-import {FraxswapOracle} from "public-frax-bamm/src/contracts/FraxswapOracle.sol";
-import {Script, console} from "forge-std/Script.sol";
+import { FraxswapOracle } from "public-frax-bamm/src/contracts/FraxswapOracle.sol";
+import { Script, console } from "forge-std/Script.sol";
 
 contract DeployFraxswapOracle is Script {
     function run() external returns (address) {
