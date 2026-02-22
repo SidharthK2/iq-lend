@@ -65,9 +65,6 @@ contract InterestAccrualTest is BaseRouterTest {
         // Warp a short period to accrue some interest
         vm.warp(block.timestamp + 1 hours);
 
-        // Accrue interest before closing so closeLong reads fresh state
-        lend.accrueInterest(market1Params);
-
         vm.prank(user);
         router.closeLong(0);
 
