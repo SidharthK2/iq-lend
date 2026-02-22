@@ -67,8 +67,9 @@ contract IQLend is IMorphoStaticTyping {
     /// @inheritdoc IMorphoStaticTyping
     mapping(Id => MarketParams) public idToMarketParams;
 
-    //Risk Management
+    /// @notice Maximum total supply assets allowed per market. Zero means uncapped.
     mapping(Id => uint256) public supplyCaps;
+    /// @notice Maximum total borrow assets allowed per market. Zero means uncapped.
     mapping(Id => uint256) public borrowCaps;
 
     /* CONSTRUCTOR */
@@ -146,7 +147,11 @@ contract IQLend is IMorphoStaticTyping {
         emit EventsLib.SetFeeRecipient(newFeeRecipient);
     }
 
-    //@dev Let owner set borrow/supply caps
+    /// @notice Sets supply and borrow caps for a market. Only callable by the owner.
+    /// @dev A cap of zero is treated as uncapped. Caps are enforced in `supply` and `borrow`.
+    /// @param id Morpho market ID to configure.
+    /// @param supplyCap Maximum total supply assets for the market. Zero means uncapped.
+    /// @param borrowCap Maximum total borrow assets for the market. Zero means uncapped.
     function setCaps(Id id, uint256 supplyCap, uint256 borrowCap) external {
         require(msg.sender == owner);
         supplyCaps[id] = supplyCap;
