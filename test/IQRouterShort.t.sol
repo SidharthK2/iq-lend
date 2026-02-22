@@ -21,7 +21,7 @@ contract IQRouterShortTest is Test {
     address liquidityProvider = makeAddr("lp");
 
     function setUp() public {
-        vm.createSelectFork(vm.envString("ETHEREUM_MAINNET_URL"));
+        vm.createSelectFork(vm.rpcUrl("mainnet"));
 
         lend = IQLend(Constants.IQ_LEND);
         router = new IQRouter(address(this));

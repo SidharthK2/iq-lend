@@ -28,7 +28,7 @@ abstract contract BaseRouterTest is Test {
     address lp = makeAddr("lp");
 
     function setUp() public virtual {
-        vm.createSelectFork(vm.envString("ETHEREUM_MAINNET_URL"));
+        vm.createSelectFork(vm.rpcUrl("mainnet"));
 
         lend = IQLend(Constants.IQ_LEND);
         router = new IQRouter(address(this));

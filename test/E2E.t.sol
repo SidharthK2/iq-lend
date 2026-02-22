@@ -19,7 +19,7 @@ contract IQLendE2ETest is Test {
     address borrower = makeAddr("borrower");
 
     function setUp() public {
-        vm.createSelectFork(vm.envString("ETHEREUM_MAINNET_URL"));
+        vm.createSelectFork(vm.rpcUrl("mainnet"));
 
         lend = IQLend(Constants.IQ_LEND);
 

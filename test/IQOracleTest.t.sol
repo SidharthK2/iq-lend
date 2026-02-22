@@ -14,7 +14,7 @@ contract IQOracleTest is Test {
     IFraxswapOracle fraxswapOracle;
 
     function setUp() public {
-        vm.createSelectFork(vm.envString("ETHEREUM_MAINNET_URL"));
+        vm.createSelectFork(vm.rpcUrl("mainnet"));
 
         fraxswapOracle = IFraxswapOracle(address(new FraxswapOracle()));
 
