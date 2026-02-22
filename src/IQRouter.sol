@@ -242,4 +242,13 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
             fraxswapRouter.swapExactTokensForTokens(fraxOut, assets, path, address(this), block.timestamp);
         }
     }
+
+    /// @notice Rescues tokens accidentally sent to the contract.
+    /// @dev Only callable by the owner. Router should never hold tokens between transactions.
+    /// @param token Address of the ERC20 token to sweep.
+    /// @param to Recipient address.
+    /// @param amount Amount to sweep.
+    function sweep(address token, address to, uint256 amount) external onlyOwner {
+        IERC20(token).safeTransfer(to, amount);
+    }
 }

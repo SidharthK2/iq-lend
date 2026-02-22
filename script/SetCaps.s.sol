@@ -32,10 +32,14 @@ contract SetCaps is Script {
         });
 
         lend.setCaps(market1.id(), Constants.MARKET1_SUPPLY_CAP, Constants.MARKET1_BORROW_CAP);
-        console.log("Market 1 caps set: supply=%d, borrow=%d", Constants.MARKET1_SUPPLY_CAP, Constants.MARKET1_BORROW_CAP);
+        console.log(
+            "Market 1 caps set: supply=%d, borrow=%d", Constants.MARKET1_SUPPLY_CAP, Constants.MARKET1_BORROW_CAP
+        );
 
         lend.setCaps(market2.id(), Constants.MARKET2_SUPPLY_CAP, Constants.MARKET2_BORROW_CAP);
-        console.log("Market 2 caps set: supply=%d, borrow=%d", Constants.MARKET2_SUPPLY_CAP, Constants.MARKET2_BORROW_CAP);
+        console.log(
+            "Market 2 caps set: supply=%d, borrow=%d", Constants.MARKET2_SUPPLY_CAP, Constants.MARKET2_BORROW_CAP
+        );
 
         vm.stopBroadcast();
     }

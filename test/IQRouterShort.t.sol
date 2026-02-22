@@ -39,8 +39,8 @@ contract IQRouterShortTest is Test {
         (,,,, uint128 lastUpdate,) = lend.market(market2Id);
         if (lastUpdate == 0) {
             vm.startPrank(lend.owner());
-            try lend.enableIrm(Constants.IRM) {} catch {}
-            try lend.enableLltv(Constants.LLTV) {} catch {}
+            try lend.enableIrm(Constants.IRM) { } catch { }
+            try lend.enableLltv(Constants.LLTV) { } catch { }
             lend.createMarket(market2Params);
             vm.stopPrank();
         }
@@ -65,7 +65,7 @@ contract IQRouterShortTest is Test {
     }
 
     function testOpenShort() public {
-        uint256 seedUsdc = 1_000e6;
+        uint256 seedUsdc = 1000e6;
         uint256 leverage = 2e18; // 2x
 
         vm.startPrank(user);
@@ -91,7 +91,7 @@ contract IQRouterShortTest is Test {
     }
 
     function testCloseShort() public {
-        uint256 seedUsdc = 1_000e6;
+        uint256 seedUsdc = 1000e6;
         uint256 leverage = 2e18;
 
         // Open short first
@@ -100,7 +100,7 @@ contract IQRouterShortTest is Test {
         router.openShort(seedUsdc, leverage, 0);
 
         // Verify position exists
-        (,uint128 borrowSharesBefore, uint128 collateralBefore) = lend.position(market2Id, user);
+        (, uint128 borrowSharesBefore, uint128 collateralBefore) = lend.position(market2Id, user);
         assertGt(borrowSharesBefore, 0, "should have borrow before close");
         assertGt(collateralBefore, 0, "should have collateral before close");
 
@@ -113,8 +113,7 @@ contract IQRouterShortTest is Test {
         vm.stopPrank();
 
         // Position should be fully closed
-        (uint256 supplySharesAfter, uint128 borrowSharesAfter, uint128 collateralAfter) =
-            lend.position(market2Id, user);
+        (uint256 supplySharesAfter, uint128 borrowSharesAfter, uint128 collateralAfter) = lend.position(market2Id, user);
         assertEq(supplySharesAfter, 0, "supply shares should be 0 after close");
         assertEq(borrowSharesAfter, 0, "borrow shares should be 0 after close");
         assertEq(collateralAfter, 0, "collateral should be 0 after close");
@@ -131,14 +130,14 @@ contract IQRouterShortTest is Test {
 
     function testOpenShortRevertsWithNoApproval() public {
         address noApprovalUser = makeAddr("noApproval");
-        deal(Constants.USDC, noApprovalUser, 1_000e6);
+        deal(Constants.USDC, noApprovalUser, 1000e6);
 
         vm.startPrank(noApprovalUser);
-        IERC20(Constants.USDC).approve(address(router), 1_000e6);
+        IERC20(Constants.USDC).approve(address(router), 1000e6);
         // User hasn't called lend.setAuthorization(router, true)
         // The borrow call inside the callback should revert
         vm.expectRevert();
-        router.openShort(1_000e6, 2e18, 0);
+        router.openShort(1000e6, 2e18, 0);
         vm.stopPrank();
     }
 }

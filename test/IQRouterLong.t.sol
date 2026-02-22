@@ -39,8 +39,8 @@ contract IQRouterLongTest is Test {
         (,,,, uint128 lastUpdate,) = lend.market(market1Id);
         if (lastUpdate == 0) {
             vm.startPrank(lend.owner());
-            try lend.enableIrm(Constants.IRM) {} catch {}
-            try lend.enableLltv(Constants.LLTV) {} catch {}
+            try lend.enableIrm(Constants.IRM) { } catch { }
+            try lend.enableLltv(Constants.LLTV) { } catch { }
             lend.createMarket(market1Params);
             vm.stopPrank();
         }
@@ -65,7 +65,7 @@ contract IQRouterLongTest is Test {
     }
 
     function testOpenLong() public {
-        uint256 seedUsdc = 1_000e6;
+        uint256 seedUsdc = 1000e6;
         uint256 leverage = 2e18; // 2x
 
         vm.startPrank(user);
@@ -88,7 +88,7 @@ contract IQRouterLongTest is Test {
     }
 
     function testCloseLong() public {
-        uint256 seedUsdc = 1_000e6;
+        uint256 seedUsdc = 1000e6;
         uint256 leverage = 2e18;
 
         // Open long first
@@ -110,8 +110,7 @@ contract IQRouterLongTest is Test {
         vm.stopPrank();
 
         // Position should be fully closed
-        (uint256 supplySharesAfter, uint128 borrowSharesAfter, uint128 collateralAfter) =
-            lend.position(market1Id, user);
+        (uint256 supplySharesAfter, uint128 borrowSharesAfter, uint128 collateralAfter) = lend.position(market1Id, user);
         assertEq(supplySharesAfter, 0, "supply shares should be 0 after close");
         assertEq(borrowSharesAfter, 0, "borrow shares should be 0 after close");
         assertEq(collateralAfter, 0, "collateral should be 0 after close");
@@ -128,12 +127,12 @@ contract IQRouterLongTest is Test {
 
     function testOpenLongRevertsWithNoApproval() public {
         address noApprovalUser = makeAddr("noApproval");
-        deal(Constants.USDC, noApprovalUser, 1_000e6);
+        deal(Constants.USDC, noApprovalUser, 1000e6);
 
         vm.startPrank(noApprovalUser);
-        IERC20(Constants.USDC).approve(address(router), 1_000e6);
+        IERC20(Constants.USDC).approve(address(router), 1000e6);
         vm.expectRevert();
-        router.openLong(1_000e6, 2e18, 0);
+        router.openLong(1000e6, 2e18, 0);
         vm.stopPrank();
     }
 }
