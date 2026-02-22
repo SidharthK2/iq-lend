@@ -13,6 +13,7 @@ import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.s
 import { IFraxswapRouter } from "./interfaces/IFraxswapRouter.sol";
 import { ICurvePool } from "./interfaces/ICurvePool.sol";
 import { IQLend } from "./IQLend.sol";
+import { IOracle } from "./interfaces/IOracle.sol";
 
 import { Constants } from "./Constants.sol";
 
@@ -111,18 +112,58 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
         uint256 borrowAssets = borrowShares.toAssetsUp(totalBorrowAssets, totalBorrowShares);
         bytes memory data = abi.encode(msg.sender, borrowAssets, minUsdcOut, Action.CLOSE_LONG);
         iqLend.flashLoan(usdc, borrowAssets, data);
+        uint256 residualAmt = IERC20(usdc).balanceOf(address(this));
+        IERC20(usdc).safeTransfer(msg.sender, residualAmt);
     }
 
-    /// @notice Opens a leveraged short position on IQ. Not yet implemented.
-    /// @param usdcAmount Amount of USDC the caller contributes as seed capital.
-    /// @param iqFlashAmount Amount of IQ to flash borrow in order to establish the short.
-    /// @param minUsdcCollateral Minimum USDC collateral to receive after selling the flash-borrowed IQ (slippage
-    /// protection).
-    function openShort(uint256 usdcAmount, uint256 iqFlashAmount, uint256 minUsdcCollateral) external { }
+    /// @notice Opens a leveraged short position on IQ.
+    /// @dev Computes the IQ flash loan amount from the Market 2 oracle price, flash borrows IQ, sells it
+    ///      for USDC via FRAX, supplies seed + swapped USDC as collateral in market 2, then borrows IQ
+    ///      to repay the flash loan.
+    /// @param usdcAmount Amount of USDC the caller contributes as seed capital (pulled from caller).
+    /// @param leverageX18 Desired leverage multiplier scaled by 1e18 (e.g. 2e18 = 2x). Must be > 1e18.
+    /// @param minUsdcCollateral Minimum total USDC collateral after swap (slippage protection).
+    function openShort(uint256 usdcAmount, uint256 leverageX18, uint256 minUsdcCollateral) external {
+        IERC20(usdc).safeTransferFrom(msg.sender, address(this), usdcAmount);
 
-    /// @notice Closes an existing leveraged short position in market 2. Not yet implemented.
+        // Compute how much IQ to flash loan: convert the borrowed USDC portion to IQ using the oracle.
+        // Market 2 oracle: price() = IQ per USDC scaled by 1e36.
+        uint256 usdcBorrowed = (usdcAmount * (leverageX18 - 1e18)) / 1e18;
+        uint256 oraclePrice = IOracle(market2Params.oracle).price();
+        uint256 iqFlashAmount = (usdcBorrowed * oraclePrice) / 1e36;
+
+        bytes memory data = abi.encode(msg.sender, usdcAmount, minUsdcCollateral, Action.OPEN_SHORT);
+        iqLend.flashLoan(iq, iqFlashAmount, data);
+    }
+
+    /// @notice Closes an existing leveraged short position in market 2.
+    /// @dev Flash borrows IQ to repay the full debt, withdraws USDC collateral, swaps all USDC to IQ
+    ///      to cover the flash loan repayment. After the callback, any leftover IQ is swapped back to
+    ///      USDC and forwarded to the caller along with any residual USDC.
     /// @param minUsdcOut Minimum net USDC to receive after unwinding the position (slippage protection).
-    function closeShort(uint256 minUsdcOut) external { }
+    function closeShort(uint256 minUsdcOut) external {
+        (, uint256 borrowShares,) = iqLend.position(market2Id, msg.sender);
+        (,, uint128 totalBorrowAssets, uint128 totalBorrowShares,,) = iqLend.market(market2Id);
+        uint256 borrowAssets = borrowShares.toAssetsUp(totalBorrowAssets, totalBorrowShares);
+        bytes memory data = abi.encode(msg.sender, borrowAssets, minUsdcOut, Action.CLOSE_SHORT);
+        iqLend.flashLoan(iq, borrowAssets, data);
+
+        // Swap any leftover IQ back to USDC
+        uint256 iqBalance = IERC20(iq).balanceOf(address(this));
+        if (iqBalance > 0) {
+            address[] memory path = new address[](2);
+            path[0] = iq;
+            path[1] = frax;
+            uint256[] memory amounts =
+                fraxswapRouter.swapExactTokensForTokens(iqBalance, 0, path, address(this), block.timestamp);
+            curvePool.exchange(0, 1, amounts[1], 0);
+        }
+
+        // Forward residual USDC to user
+        uint256 residualAmt = IERC20(usdc).balanceOf(address(this));
+        require(residualAmt >= minUsdcOut, "slippage");
+        IERC20(usdc).safeTransfer(msg.sender, residualAmt);
+    }
 
     /// @notice Morpho Blue flash loan callback. Executes the leverage action encoded in `data`.
     /// @dev Only callable by IQLend. Decodes the action and routes to the appropriate handler.
@@ -153,6 +194,52 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
             iqLend.borrow(market1Params, assets, 0, user, address(this));
         }
 
-        if (action == Action.CLOSE_LONG) { }
+        if (action == Action.CLOSE_LONG) {
+            iqLend.repay(market1Params, assets, 0, user, "");
+            (,, uint256 collateral) = iqLend.position(market1Id, user);
+            iqLend.withdrawCollateral(market1Params, collateral, user, address(this));
+            address[] memory path = new address[](2);
+            path[0] = iq;
+            path[1] = frax;
+            uint256[] memory amounts =
+                fraxswapRouter.swapExactTokensForTokens(collateral, minAmtOut, path, address(this), block.timestamp);
+            curvePool.exchange(0, 1, amounts[1], 0);
+        }
+
+        if (action == Action.OPEN_SHORT) {
+            // Swap flash-loaned IQ -> FRAX
+            address[] memory path = new address[](2);
+            path[0] = iq;
+            path[1] = frax;
+            uint256[] memory amounts =
+                fraxswapRouter.swapExactTokensForTokens(assets, 0, path, address(this), block.timestamp);
+
+            // FRAX -> USDC
+            uint256 usdcOut = curvePool.exchange(0, 1, amounts[1], 0);
+
+            // Supply seed USDC + swapped USDC as collateral in market 2
+            uint256 totalUsdc = userAmount + usdcOut;
+            require(totalUsdc >= minAmtOut, "slippage");
+            iqLend.supplyCollateral(market2Params, totalUsdc, user, "");
+
+            // Borrow IQ to repay flash loan
+            iqLend.borrow(market2Params, assets, 0, user, address(this));
+        }
+
+        if (action == Action.CLOSE_SHORT) {
+            // Repay IQ debt
+            iqLend.repay(market2Params, assets, 0, user, "");
+
+            // Withdraw all USDC collateral
+            (,, uint256 collateral) = iqLend.position(market2Id, user);
+            iqLend.withdrawCollateral(market2Params, collateral, user, address(this));
+
+            // Swap USDC -> FRAX -> IQ to cover flash loan repayment
+            uint256 fraxOut = curvePool.exchange(1, 0, collateral, 0);
+            address[] memory path = new address[](2);
+            path[0] = frax;
+            path[1] = iq;
+            fraxswapRouter.swapExactTokensForTokens(fraxOut, assets, path, address(this), block.timestamp);
+        }
     }
 }

@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "lint:check": "prettier --check '**/*.(sol)' --ignore-path=.gitignore",
-    "lint:fix-all": "prettier --write '**/*.(sol)' --ignore-path=.gitignore",
+    "lint:check": "forge lint",
     "test": "forge test",
     "build": "forge build",
     "size": "forge build --sizes",
