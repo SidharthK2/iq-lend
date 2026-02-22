@@ -55,11 +55,17 @@ library Constants {
     /// @notice Liquidation loan-to-value ratio (70%, scaled by 1e18).
     uint256 constant LLTV = 0.7e18;
 
-    /// @notice Maximum total supply allowed per market in USDC (500 USDC, 6 decimals).
-    uint256 constant SUPPLY_CAP = 500e6;
+    /// @notice Market 1 supply cap in USDC (500 USDC, 6 decimals). Loan token = USDC.
+    uint256 constant MARKET1_SUPPLY_CAP = 500e6;
 
-    /// @notice Maximum total borrows allowed per market in USDC (500 USDC, 6 decimals).
-    uint256 constant BORROW_CAP = 500e6;
+    /// @notice Market 1 borrow cap in USDC (500 USDC, 6 decimals). Loan token = USDC.
+    uint256 constant MARKET1_BORROW_CAP = 500e6;
+
+    /// @notice Market 2 supply cap in IQ (50M IQ, 18 decimals). Loan token = IQ.
+    uint256 constant MARKET2_SUPPLY_CAP = 50_000_000e18;
+
+    /// @notice Market 2 borrow cap in IQ (50M IQ, 18 decimals). Loan token = IQ.
+    uint256 constant MARKET2_BORROW_CAP = 50_000_000e18;
 
     // -------------------------------------------------------------------------
     // Deployed contracts

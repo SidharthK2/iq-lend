@@ -21,8 +21,8 @@ contract SeedLiquidity is Script {
             lltv: Constants.LLTV
         });
 
-        IERC20(Constants.USDC).approve(Constants.IQ_LEND, Constants.SUPPLY_CAP);
-        lend.supply(market1, Constants.SUPPLY_CAP, 0, msg.sender, "");
+        IERC20(Constants.USDC).approve(Constants.IQ_LEND, Constants.MARKET1_SUPPLY_CAP);
+        lend.supply(market1, Constants.MARKET1_SUPPLY_CAP, 0, msg.sender, "");
 
         console.log("Supplied USDC to Market 1");
 

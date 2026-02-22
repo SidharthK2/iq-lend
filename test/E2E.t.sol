@@ -39,7 +39,7 @@ contract IQLendE2ETest is Test {
             lend.enableIrm(Constants.IRM);
             lend.enableLltv(Constants.LLTV);
             lend.createMarket(market1Params);
-            lend.setCaps(market1Id, Constants.SUPPLY_CAP, Constants.BORROW_CAP);
+            lend.setCaps(market1Id, Constants.MARKET1_SUPPLY_CAP, Constants.MARKET1_BORROW_CAP);
             vm.stopPrank();
         }
 
@@ -53,7 +53,7 @@ contract IQLendE2ETest is Test {
         IERC20(Constants.USDC).approve(address(lend), type(uint256).max);
 
         // Supply up to cap — should succeed
-        lend.supply(market1Params, Constants.SUPPLY_CAP, 0, supplier, "");
+        lend.supply(market1Params, Constants.MARKET1_SUPPLY_CAP, 0, supplier, "");
 
         // Next supply should revert
         vm.expectRevert("supply cap reached");
@@ -65,7 +65,7 @@ contract IQLendE2ETest is Test {
         // Supply first
         vm.startPrank(supplier);
         IERC20(Constants.USDC).approve(address(lend), type(uint256).max);
-        lend.supply(market1Params, Constants.SUPPLY_CAP, 0, supplier, "");
+        lend.supply(market1Params, Constants.MARKET1_SUPPLY_CAP, 0, supplier, "");
         vm.stopPrank();
 
         // Deposit collateral and borrow up to cap
@@ -74,7 +74,7 @@ contract IQLendE2ETest is Test {
         lend.supplyCollateral(market1Params, 1_000_000e18, borrower, "");
 
         // Borrow full cap
-        lend.borrow(market1Params, Constants.BORROW_CAP, 0, borrower, borrower);
+        lend.borrow(market1Params, Constants.MARKET1_BORROW_CAP, 0, borrower, borrower);
 
         // Next borrow should revert
         vm.expectRevert("borrow cap reached");
