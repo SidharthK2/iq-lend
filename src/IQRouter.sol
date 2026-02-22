@@ -107,6 +107,7 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
     ///      any residual USDC to the caller.
     /// @param minUsdcOut Minimum net USDC to receive after unwinding the position (slippage protection).
     function closeLong(uint256 minUsdcOut) external {
+        iqLend.accrueInterest(market1Params);
         (, uint256 borrowShares,) = iqLend.position(market1Id, msg.sender);
         (,, uint128 totalBorrowAssets, uint128 totalBorrowShares,,) = iqLend.market(market1Id);
         uint256 borrowAssets = borrowShares.toAssetsUp(totalBorrowAssets, totalBorrowShares);
@@ -142,6 +143,7 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
     ///      USDC and forwarded to the caller along with any residual USDC.
     /// @param minUsdcOut Minimum net USDC to receive after unwinding the position (slippage protection).
     function closeShort(uint256 minUsdcOut) external {
+        iqLend.accrueInterest(market2Params);
         (, uint256 borrowShares,) = iqLend.position(market2Id, msg.sender);
         (,, uint128 totalBorrowAssets, uint128 totalBorrowShares,,) = iqLend.market(market2Id);
         uint256 borrowAssets = borrowShares.toAssetsUp(totalBorrowAssets, totalBorrowShares);
