@@ -7,7 +7,8 @@ import { MarketParams } from "morpho-blue/src/interfaces/IMorpho.sol";
 import { IERC20 } from "forge-std/interfaces/IERC20.sol";
 import { Script, console } from "forge-std/Script.sol";
 
-contract SeedLiquidity is Script {
+/// @notice Seeds Market 1 (long IQ) with USDC liquidity up to the supply cap.
+contract SeedMarket1 is Script {
     function run() external {
         vm.startBroadcast(vm.envUint("PRIVATE_KEY"));
 
@@ -24,7 +25,7 @@ contract SeedLiquidity is Script {
         IERC20(Constants.USDC).approve(Constants.IQ_LEND, Constants.MARKET1_SUPPLY_CAP);
         lend.supply(market1, Constants.MARKET1_SUPPLY_CAP, 0, msg.sender, "");
 
-        console.log("Supplied USDC to Market 1");
+        console.log("Supplied USDC to Market 1:", Constants.MARKET1_SUPPLY_CAP);
 
         vm.stopBroadcast();
     }

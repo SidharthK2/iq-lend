@@ -74,6 +74,9 @@ library Constants {
     /// @notice Fraxswap TWAP oracle contract.
     address constant FRAXSWAP_ORACLE = 0xd1714D6b97cB5e514488D8DDEe564F3194303b64;
 
+    /// @notice IQLend Router
+    address constant ROUTER = 0x4E54507D17d95e33F54081098B2648aB1a91c629;
+
     /// @notice IQOracle for market 1 (usePrice0=true: returns IQ price in FRAX terms).
     address constant IQ_ORACLE_MARKET1 = 0xf967BB7DA29a187A16b9276A9edB31733CbA443A;
 
