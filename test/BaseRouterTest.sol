@@ -78,8 +78,8 @@ abstract contract BaseRouterTest is Test {
         (,,,, uint128 lastUpdate,) = lend.market(id);
         if (lastUpdate == 0) {
             vm.startPrank(lend.owner());
-            try lend.enableIrm(params.irm) {} catch {}
-            try lend.enableLltv(params.lltv) {} catch {}
+            try lend.enableIrm(params.irm) { } catch { }
+            try lend.enableLltv(params.lltv) { } catch { }
             lend.createMarket(params);
             vm.stopPrank();
         }

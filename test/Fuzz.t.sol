@@ -9,7 +9,7 @@ import { console2 as console } from "forge-std/Test.sol";
 contract FuzzTest is BaseRouterTest {
     function testFuzzOpenCloseLong(uint256 seedUsdc, uint256 leverageX18) public {
         // Bound seed between 10 USDC and 5k USDC (limited by AMM liquidity/slippage)
-        seedUsdc = bound(seedUsdc, 10e6, 5_000e6);
+        seedUsdc = bound(seedUsdc, 10e6, 5000e6);
         // Bound leverage between 1.1x and 2.5x (safe margin for slippage)
         leverageX18 = bound(leverageX18, 11e17, 25e17);
 
@@ -34,7 +34,7 @@ contract FuzzTest is BaseRouterTest {
 
     function testFuzzOpenCloseShort(uint256 seedUsdc, uint256 leverageX18) public {
         // Bound seed between 100 USDC and 5k USDC (limited by AMM liquidity/slippage)
-        seedUsdc = bound(seedUsdc, 100e6, 5_000e6);
+        seedUsdc = bound(seedUsdc, 100e6, 5000e6);
         // Bound leverage between 1.1x and 2.5x (safe margin for slippage)
         leverageX18 = bound(leverageX18, 11e17, 25e17);
 

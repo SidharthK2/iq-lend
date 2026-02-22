@@ -24,11 +24,7 @@ contract LiquidationTest is BaseRouterTest {
         // Mock oracle to return a much lower IQ price (simulating 80% crash)
         uint256 currentPrice = IOracle(market1Params.oracle).price();
         uint256 crashedPrice = currentPrice / 5; // 80% drop
-        vm.mockCall(
-            market1Params.oracle,
-            abi.encodeWithSelector(IOracle.price.selector),
-            abi.encode(crashedPrice)
-        );
+        vm.mockCall(market1Params.oracle, abi.encodeWithSelector(IOracle.price.selector), abi.encode(crashedPrice));
 
         // Liquidator seizes the position
         deal(Constants.USDC, liquidator, 10_000_000e6);
@@ -82,11 +78,7 @@ contract LiquidationTest is BaseRouterTest {
         // Market 2 oracle: price = IQ_per_USDC. If IQ surges, fewer IQ per USDC, so price drops.
         uint256 currentPrice = IOracle(market2Params.oracle).price();
         uint256 surgedPrice = currentPrice / 5; // IQ 5x surge means 1/5 the IQ per USDC
-        vm.mockCall(
-            market2Params.oracle,
-            abi.encodeWithSelector(IOracle.price.selector),
-            abi.encode(surgedPrice)
-        );
+        vm.mockCall(market2Params.oracle, abi.encodeWithSelector(IOracle.price.selector), abi.encode(surgedPrice));
 
         // Liquidator seizes the position
         deal(Constants.IQ, liquidator, 100_000_000e18);
