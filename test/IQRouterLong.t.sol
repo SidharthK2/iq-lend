@@ -65,7 +65,7 @@ contract IQRouterLongTest is Test {
     }
 
     function testOpenLong() public {
-        uint256 seedUsdc = 1000e6;
+        uint256 seedUsdc = 100e6;
         uint256 leverage = 2e18; // 2x
 
         vm.startPrank(user);
@@ -88,7 +88,7 @@ contract IQRouterLongTest is Test {
     }
 
     function testCloseLong() public {
-        uint256 seedUsdc = 1000e6;
+        uint256 seedUsdc = 100e6;
         uint256 leverage = 2e18;
 
         // Open long first
