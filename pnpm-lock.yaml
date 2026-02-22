@@ -35,9 +35,6 @@ importers:
       morpho-blue:
         specifier: github:morpho-org/morpho-blue
         version: https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645
-      morpho-blue-irm:
-        specifier: github:morpho-org/morpho-blue-irm
-        version: https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25
       public-frax-bamm:
         specifier: github:FraxFinance/public-frax-bamm
         version: dev-frax-bamm@https://codeload.github.com/FraxFinance/public-frax-bamm/tar.gz/24118b75edc5377dee23c53ae419405287b92295
@@ -497,6 +494,10 @@ packages:
   dot-case@3.0.4:
     resolution: {integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==}
 
+  ds-test@git+https://git@github.com:dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0:
+    resolution: {commit: e282159d5170298eb2455a6c05280ab5a73a4ef0, repo: git@github.com:dapphub/ds-test.git, type: git}
+    version: 1.0.0
+
   ds-test@https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0:
     resolution: {tarball: https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0}
     version: 1.0.0
@@ -563,8 +564,8 @@ packages:
     resolution: {tarball: https://codeload.github.com/foundry-rs/forge-std/tar.gz/e8a047e3f40f13fa37af6fe14e6e06283d9a060e}
     version: 1.5.6
 
-  frax-standard-solidity@https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/4603eb28fc17a38dc097ead3d632b6e5ea14e932:
-    resolution: {tarball: https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/4603eb28fc17a38dc097ead3d632b6e5ea14e932}
+  frax-standard-solidity@https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/c1f936c35920fcd033096ec3837fe3fe91c47174:
+    resolution: {tarball: https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/c1f936c35920fcd033096ec3837fe3fe91c47174}
     version: 1.1.4
 
   fs-extra@11.3.3:
@@ -722,10 +723,6 @@ packages:
   minimatch@5.1.6:
     resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
-
-  morpho-blue-irm@https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25:
-    resolution: {tarball: https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25}
-    version: 0.0.0
 
   morpho-blue@https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645:
     resolution: {tarball: https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645}
@@ -1639,7 +1636,7 @@ snapshots:
       ds-test: https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0
       ethers: 5.7.2
       forge-std: https://codeload.github.com/foundry-rs/forge-std/tar.gz/e8a047e3f40f13fa37af6fe14e6e06283d9a060e
-      frax-standard-solidity: https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/4603eb28fc17a38dc097ead3d632b6e5ea14e932
+      frax-standard-solidity: https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/c1f936c35920fcd033096ec3837fe3fe91c47174
       solidity-bytes-utils: https://codeload.github.com/GNSPS/solidity-bytes-utils/tar.gz/fc502455bb2a7e26a743378df042612dd50d1eb9
       solmate: '@rari-capital/solmate@https://codeload.github.com/transmissions11/solmate/tar.gz/a9e3ea26a2dc73bfa87f0cb189687d029028e0c5'
     transitivePeerDependencies:
@@ -1654,7 +1651,7 @@ snapshots:
     dependencies:
       ds-test: https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0
       forge-std: https://codeload.github.com/foundry-rs/forge-std/tar.gz/e8a047e3f40f13fa37af6fe14e6e06283d9a060e
-      frax-standard-solidity: https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/4603eb28fc17a38dc097ead3d632b6e5ea14e932
+      frax-standard-solidity: https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/c1f936c35920fcd033096ec3837fe3fe91c47174
       solidity-bytes-utils: https://codeload.github.com/GNSPS/solidity-bytes-utils/tar.gz/fc502455bb2a7e26a743378df042612dd50d1eb9
     transitivePeerDependencies:
       - '@swc/core'
@@ -1667,6 +1664,8 @@ snapshots:
     dependencies:
       no-case: 3.0.4
       tslib: 2.8.1
+
+  ds-test@git+https://git@github.com:dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0: {}
 
   ds-test@https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0: {}
 
@@ -1750,14 +1749,14 @@ snapshots:
 
   forge-std@https://codeload.github.com/foundry-rs/forge-std/tar.gz/e8a047e3f40f13fa37af6fe14e6e06283d9a060e: {}
 
-  frax-standard-solidity@https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/4603eb28fc17a38dc097ead3d632b6e5ea14e932:
+  frax-standard-solidity@https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/c1f936c35920fcd033096ec3837fe3fe91c47174:
     dependencies:
       '@types/fs-extra': 11.0.4
       '@types/node': 24.10.12
       change-case: 4.1.2
       commander: 10.0.1
       date-fns: 2.30.0
-      ds-test: https://codeload.github.com/dapphub/ds-test/tar.gz/e282159d5170298eb2455a6c05280ab5a73a4ef0
+      ds-test: git+https://git@github.com:dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0
       forge-std: https://codeload.github.com/foundry-rs/forge-std/tar.gz/60acb7aaadcce2d68e52986a0a66fe79f07d138f
       fs-extra: 11.3.3
       husky: 8.0.3
@@ -1925,8 +1924,6 @@ snapshots:
   minimatch@5.1.6:
     dependencies:
       brace-expansion: 2.0.2
-
-  morpho-blue-irm@https://codeload.github.com/morpho-org/morpho-blue-irm/tar.gz/13c045784a67c00ae48b89957f36f8074b4b5b25: {}
 
   morpho-blue@https://codeload.github.com/morpho-org/morpho-blue/tar.gz/0427acea2f2c9066195a6824fb75967f9a9e7645: {}
 

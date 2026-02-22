@@ -23,7 +23,6 @@
     "ds-test": "github:dapphub/ds-test",
     "forge-std": "github:foundry-rs/forge-std#e8a047e3f40f13fa37af6fe14e6e06283d9a060e",
     "morpho-blue": "github:morpho-org/morpho-blue",
-    "morpho-blue-irm": "github:morpho-org/morpho-blue-irm",
     "public-frax-bamm": "github:FraxFinance/public-frax-bamm"
   }
 }
