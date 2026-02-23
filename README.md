@@ -32,7 +32,7 @@ Closing unwinds the position in reverse — repays debt, withdraws collateral, s
 | Contract | Address |
 |----------|---------|
 | IQLend | `0x7731a73252371de56Fb37F7F428aBD9f0e54c737` |
-| IQRouter | `0x4E54507D17d95e33F54081098B2648aB1a91c629` |
+| IQRouter | `0x31211edbd0615349D1a989f9710C5Ccd4543Ce30` |
 | IQOracle (Market 1) | `0xf967BB7DA29a187A16b9276A9edB31733CbA443A` |
 | IQOracle (Market 2) | `0x13aF5D132f5e93EcEe7080D06d523EEb585c5b63` |
 
