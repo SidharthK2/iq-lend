@@ -51,10 +51,10 @@ contract IQRouterShortTest is Test {
         lend.setCaps(market2Id, 50_000_000e18, 50_000_000e18);
 
         // Seed market 2 with IQ liquidity so borrows can succeed
-        deal(Constants.IQ, liquidityProvider, 10_000_000e18);
+        deal(Constants.IQ, liquidityProvider, 20_000_000e18);
         vm.startPrank(liquidityProvider);
         IERC20(Constants.IQ).approve(address(lend), type(uint256).max);
-        lend.supply(market2Params, 10_000_000e18, 0, liquidityProvider, "");
+        lend.supply(market2Params, 20_000_000e18, 0, liquidityProvider, "");
         vm.stopPrank();
 
         // Fund user with USDC
