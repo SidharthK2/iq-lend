@@ -4,6 +4,7 @@ pragma solidity >=0.8.19;
 import { IQLend } from "../src/IQLend.sol";
 import { IQRouter } from "../src/IQRouter.sol";
 import { Constants } from "../src/Constants.sol";
+import { IFraxswapRouter } from "../src/interfaces/IFraxswapRouter.sol";
 import { MarketParams, Id } from "@morpho-blue/interfaces/IMorpho.sol";
 import { MarketParamsLib } from "@morpho-blue/libraries/MarketParamsLib.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -139,5 +140,35 @@ contract IQRouterShortTest is Test {
         vm.expectRevert();
         router.openShort(1000e6, 2e18, 0);
         vm.stopPrank();
+    }
+
+    function testShortNetsProfitOnFavorableMove() public {
+        uint256 seedUsdc = 5000e6;
+        uint256 leverage = 25e17; // 2.5x
+        uint256 userUsdcStart = IERC20(Constants.USDC).balanceOf(user);
+
+        vm.startPrank(user);
+        IERC20(Constants.USDC).approve(address(router), seedUsdc);
+        router.openShort(seedUsdc, leverage, 0);
+        vm.stopPrank();
+
+        // Sell IQ aggressively to move IQ price down before close.
+        address priceMover = makeAddr("priceMover");
+        uint256 iqToSell = 20_000_000e18;
+        deal(Constants.IQ, priceMover, iqToSell);
+        vm.startPrank(priceMover);
+        IERC20(Constants.IQ).approve(Constants.FRAXSWAP_ROUTER, iqToSell);
+        address[] memory path = new address[](2);
+        path[0] = Constants.IQ;
+        path[1] = Constants.FRAX;
+        IFraxswapRouter(Constants.FRAXSWAP_ROUTER)
+            .swapExactTokensForTokens(iqToSell, 0, path, priceMover, block.timestamp);
+        vm.stopPrank();
+
+        vm.prank(user);
+        router.closeShort(0);
+
+        uint256 userUsdcFinal = IERC20(Constants.USDC).balanceOf(user);
+        assertGt(userUsdcFinal, userUsdcStart, "short should net profit after favorable move");
     }
 }
