@@ -23,7 +23,7 @@ contract SeedMarket1 is Script {
         });
 
         IERC20(Constants.USDC).approve(Constants.IQ_LEND, Constants.MARKET1_SUPPLY_CAP);
-        lend.supply(market1, Constants.MARKET1_SUPPLY_CAP, 0, msg.sender, "");
+        lend.supply(market1, 10e6, 0, msg.sender, "");
 
         console.log("Supplied USDC to Market 1:", Constants.MARKET1_SUPPLY_CAP);
 

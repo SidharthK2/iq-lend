@@ -23,7 +23,7 @@ contract SeedMarket2 is Script {
         });
 
         IERC20(Constants.IQ).approve(Constants.IQ_LEND, Constants.MARKET2_SUPPLY_CAP);
-        lend.supply(market2, Constants.MARKET2_SUPPLY_CAP, 0, msg.sender, "");
+        lend.supply(market2, 8500e18, 0, msg.sender, "");
 
         console.log("Supplied IQ to Market 2:", Constants.MARKET2_SUPPLY_CAP);
 
