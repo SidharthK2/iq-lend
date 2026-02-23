@@ -111,7 +111,7 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
         (, uint256 borrowShares,) = iqLend.position(market1Id, msg.sender);
         (,, uint128 totalBorrowAssets, uint128 totalBorrowShares,,) = iqLend.market(market1Id);
         uint256 borrowAssets = borrowShares.toAssetsUp(totalBorrowAssets, totalBorrowShares);
-        bytes memory data = abi.encode(msg.sender, borrowAssets, minUsdcOut, Action.CLOSE_LONG);
+        bytes memory data = abi.encode(msg.sender, borrowShares, minUsdcOut, Action.CLOSE_LONG);
         iqLend.flashLoan(usdc, borrowAssets, data);
         uint256 residualAmt = IERC20(usdc).balanceOf(address(this));
         IERC20(usdc).safeTransfer(msg.sender, residualAmt);
@@ -147,7 +147,7 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
         (, uint256 borrowShares,) = iqLend.position(market2Id, msg.sender);
         (,, uint128 totalBorrowAssets, uint128 totalBorrowShares,,) = iqLend.market(market2Id);
         uint256 borrowAssets = borrowShares.toAssetsUp(totalBorrowAssets, totalBorrowShares);
-        bytes memory data = abi.encode(msg.sender, borrowAssets, minUsdcOut, Action.CLOSE_SHORT);
+        bytes memory data = abi.encode(msg.sender, borrowShares, minUsdcOut, Action.CLOSE_SHORT);
         iqLend.flashLoan(iq, borrowAssets, data);
 
         // Swap any leftover IQ back to USDC
@@ -197,7 +197,7 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
         }
 
         if (action == Action.CLOSE_LONG) {
-            iqLend.repay(market1Params, assets, 0, user, "");
+            iqLend.repay(market1Params, 0, userAmount, user, "");
             (,, uint256 collateral) = iqLend.position(market1Id, user);
             iqLend.withdrawCollateral(market1Params, collateral, user, address(this));
             address[] memory path = new address[](2);
@@ -230,7 +230,7 @@ contract IQRouter is IMorphoFlashLoanCallback, Ownable {
 
         if (action == Action.CLOSE_SHORT) {
             // Repay IQ debt
-            iqLend.repay(market2Params, assets, 0, user, "");
+            iqLend.repay(market2Params, 0, userAmount, user, "");
 
             // Withdraw all USDC collateral
             (,, uint256 collateral) = iqLend.position(market2Id, user);
