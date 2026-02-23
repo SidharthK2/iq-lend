@@ -36,12 +36,15 @@ contract IQLendE2ETest is Test {
         (,,,, uint128 lastUpdate,) = lend.market(market1Id);
         if (lastUpdate == 0) {
             vm.startPrank(lend.owner());
-            lend.enableIrm(Constants.IRM);
-            lend.enableLltv(Constants.LLTV);
+            try lend.enableIrm(Constants.IRM) { } catch { }
+            try lend.enableLltv(Constants.LLTV) { } catch { }
             lend.createMarket(market1Params);
-            lend.setCaps(market1Id, Constants.MARKET1_SUPPLY_CAP, Constants.MARKET1_BORROW_CAP);
             vm.stopPrank();
         }
+
+        // Set caps high so tests work regardless of existing mainnet state
+        vm.prank(lend.owner());
+        lend.setCaps(market1Id, 10_000e6, 10_000e6);
 
         // Fund accounts
         deal(Constants.USDC, supplier, 1000e6);
@@ -51,11 +54,15 @@ contract IQLendE2ETest is Test {
     function testSupplyCapEnforced() public {
         vm.startPrank(supplier);
         IERC20(Constants.USDC).approve(address(lend), type(uint256).max);
+        lend.supply(market1Params, 100e6, 0, supplier, "");
+        vm.stopPrank();
 
-        // Supply up to cap — should succeed
-        lend.supply(market1Params, Constants.MARKET1_SUPPLY_CAP, 0, supplier, "");
+        // Set cap to current total supply so next supply reverts
+        (uint128 totalSupplyAssets,,,,,) = lend.market(market1Id);
+        vm.prank(lend.owner());
+        lend.setCaps(market1Id, totalSupplyAssets, 10_000e6);
 
-        // Next supply should revert
+        vm.startPrank(supplier);
         vm.expectRevert("supply cap reached");
         lend.supply(market1Params, 1e6, 0, supplier, "");
         vm.stopPrank();
@@ -65,18 +72,22 @@ contract IQLendE2ETest is Test {
         // Supply first
         vm.startPrank(supplier);
         IERC20(Constants.USDC).approve(address(lend), type(uint256).max);
-        lend.supply(market1Params, Constants.MARKET1_SUPPLY_CAP, 0, supplier, "");
+        lend.supply(market1Params, 500e6, 0, supplier, "");
         vm.stopPrank();
 
-        // Deposit collateral and borrow up to cap
+        // Deposit collateral and borrow
         vm.startPrank(borrower);
         IERC20(Constants.IQ).approve(address(lend), type(uint256).max);
         lend.supplyCollateral(market1Params, 1_000_000e18, borrower, "");
+        lend.borrow(market1Params, 100e6, 0, borrower, borrower);
+        vm.stopPrank();
 
-        // Borrow full cap
-        lend.borrow(market1Params, Constants.MARKET1_BORROW_CAP, 0, borrower, borrower);
+        // Set borrow cap to current total borrows so next borrow reverts
+        (,, uint128 totalBorrowAssets,,,) = lend.market(market1Id);
+        vm.prank(lend.owner());
+        lend.setCaps(market1Id, 10_000e6, totalBorrowAssets);
 
-        // Next borrow should revert
+        vm.startPrank(borrower);
         vm.expectRevert("borrow cap reached");
         lend.borrow(market1Params, 1e6, 0, borrower, borrower);
         vm.stopPrank();
