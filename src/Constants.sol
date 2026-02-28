@@ -77,6 +77,9 @@ library Constants {
     /// @notice IQLend Router
     address constant IQ_ROUTER = 0x31211edbd0615349D1a989f9710C5Ccd4543Ce30;
 
+    /// @notice Flash liquidator for capital-free liquidations.
+    address constant FLASH_LIQUIDATOR = 0xCdA1d3c9C939e73a531F32d8FFD92478c00da5cc;
+
     /// @notice IQOracle for market 1 (usePrice0=true: returns IQ price in FRAX terms).
     address constant IQ_ORACLE_MARKET1 = 0xf967BB7DA29a187A16b9276A9edB31733CbA443A;
 
