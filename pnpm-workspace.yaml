@@ -6,3 +6,10 @@ onlyBuiltDependencies:
   - "public-frax-bamm"
   - "dev-fraxswap"
   - "frax-standard-solidity"
+
+allowBuilds:
+  frax-standard-solidity@https://codeload.github.com/FraxFinance/frax-standard-solidity/tar.gz/c1f936c35920fcd033096ec3837fe3fe91c47174: true
+  dev-fraxswap@https://codeload.github.com/FraxFinance/dev-fraxswap/tar.gz/8f342f976953b7e8e5ab8bb62ab8d262e773623b: true
+  public-frax-bamm@https://codeload.github.com/FraxFinance/public-frax-bamm/tar.gz/24118b75edc5377dee23c53ae419405287b92295: true
+  dev-frax-bamm@https://codeload.github.com/FraxFinance/public-frax-bamm/tar.gz/24118b75edc5377dee23c53ae419405287b92295: true
+
